@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Log in!{% endblock %}
+{# {% block stylesheets %} 
+    {# {% stylesheets '@TestTestBundle/Resources/public/css/*' filter='cssrewrite' %}  #}
+         {# <link href="{{ asset('templates/User/Web/Login/Asset/css/login.css') }}" rel="stylesheet" type="text/css"/>  #}
+    {# {{ encore_entry_link_tags('login') }} #}
+{# {% endblock stylesheets %} #} 
+
+{% block stylesheets %}
+            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+            {{ encore_entry_link_tags('app') }}
+
+            <!-- Renders a link tag (if your module requires any CSS) -->
+                 <link rel="stylesheet" href="assets/styles/login.css"> 
+        {% endblock %}
+
+{% block body %}
+<div class="loginBox"><img class="user" src="https://i.ibb.co/yVGxFPR/2.png" height="100px" width="100px">
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h3>Sign in here</h3>
+    <div class="inputBox">
+        <input id="uname" type="text" name="Username" value="{{ last_username }}" placeholder="E-mail">
+        <input id="pass" name="Password" type="password" placeholder="Password"/>
+        <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}">
+    </div>
+        <button class="btn btn-lg btn-primary" type="submit" height="40px" font-size="16px" border-radius="20px">
+        Sign in
+    </button>
+
+    {# <label for="inputEmail">Email</label>name="email" id="inputEmail"  class="form-control" autocomplete="email" required autofocus #}
+    
+    {# <label for="inputPassword">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required> #}
+
+    
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    
+</form><a href="#">Forget Password<br> </a>
+    <div class="text-center">
+        <a href="register">Sign-Up<br> </a>
+    </div>
+</div>
+{% endblock %}

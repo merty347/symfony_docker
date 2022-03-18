@@ -1,0 +1,24 @@
+controllersUser:
+    resource: ../../src/User/Infrastructure/Web/Controller/
+    type: annotation
+
+controllersArticle:
+    resource: ../../src/Article/Infrastructure/Web/Controller/
+    type: annotation
+
+# controllersCoach:
+#     resource: ../../src/Coach/Infrastructure/Web/Controller/
+#     type: annotation
+
+# controllersEditor:
+#     resource: ../../src/Editor/Infrastructure/Web/Controller/
+#     type: annotation
+
+# controllersExercise:
+#     resource: ../../src/Exercise/Infrastructure/Web/Controller/
+#     type: annotation
+
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation
