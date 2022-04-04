@@ -2,7 +2,7 @@
 
 namespace App\Article\Domain\Repository;
 
-use App\Entity\Article;
+use App\Article\Domain\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +17,22 @@ class ArticleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Article::class);
+    }
+
+    public function CreateArticle()
+    {
+        $article = new Article();
+
+        $formBuilder = $this->createFormBuilder($article); 
+            $formBuilder
+                ->add('title', TextType::class)
+                ->add('content', TextType::class)
+                ->add('author', TextType::class)
+                ->add('date', DateType::class)
+                ->add('imagePath', TextType::class)
+                ->add('add', SubmitType::class, ['label' => 'Create Article'])
+                ->getForm();
+            
     }
 
     // /**

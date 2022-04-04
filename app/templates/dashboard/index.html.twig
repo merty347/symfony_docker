@@ -9,13 +9,13 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Hello {{ app.user.username }}! ✅</h1>
 
-    This friendly message is coming from:
+    Tu będzie strona konta użytkownika
     <ul>
         <li><a href="{{ path('app_register')}}">{{ 'app.register'|trans }} </a></li>
-        <li>Activate your account. You can be a reporter or a coach! <a href=></li>
-        <li>Your template at <code><a href="{{ '/var/www/symfony_docker/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
+        <li>Tu se będzie mógł dokonać autoryzacji<a href=></li>
+        <li><code><a href="{{ '/var/www/symfony_docker/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
     </ul>
 </div>
 {% endblock %}

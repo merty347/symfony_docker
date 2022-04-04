@@ -2,53 +2,63 @@
 
 namespace App\Article\Infrastructure\Web\Controller;
 
-use App\Article\Domain\Entity\Article;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use DateTime;
 use App\User\Domain\Entity\User;
+use App\Article\Domain\Entity\Article;
+use App\Article\Domain\Repository\ArticleRepository;
+use App\Article\Infrastructure\Form\ArticleType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ArticlesController extends AbstractController
+/**
+ * @Route("/", name="homepage")
+ */
+class ArticlesController extends AbstractController 
 {
-    public function __construct()
+    private ArticleRepository $articleRepository;
+
+    public function __construct(ArticleRepository $articleRepository)
     {
-        
+        //właściwości przekazuje zmienną lokalną
+        $this->articleRepository = $articleRepository;
     }
 
-    //tworzenie nowego artykułu
+   #[Route('/artykul/dodaj', name: 'new-article')]
+   public function CreateArticle()
+   {        
+        //czy zalogowany user
+        if($this->denyAccessUnlessGranted('add'))
+        {
+            $articleEntity = $this->articleRepository->CreateArticle();
+            $form = $this->createForm(ArticleType::class);
 
-     public function CreateArticle(User $user)
-     {
-            $article = new Article();
-            //sprawdzanie czy user to ten co zalogowany
-            
+                return $this->render('User/Web/Article/Twig/dodawanie.html.twig', ['articleForm' => $form->createView()]);
+        
+        }
+        else
+        {
+            return $this->render('User/Web/Login/Twig/login.html.twig');
 
-            //dodawanie artykułu do bazy danych:
+        }
+        
 
-            //przypisywanie użytkownika do nowo dodanego artykułu w bazie danych:
+       
+   }
 
-     }
+   //TODO edytowanie artykułów ------ zdjęcia w artykułach będą tablicą, bo to może być galeria (I Guesssssss)
+   public function EditArticle(Article $article, User $user, string $content, string $title)
+   {
+        //sprawdzanie czy user zalogowany i czy jego artykuł 
+        if ($article->getAuthor() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        //wyszukiwanie artykułu w bazie 
 
-     public function EditArticle(string $articleId, string $userId)
-     {
-        //wyszukiwanie artykułu w bazie danych 
+        //zmienianie danych w artykule
+        //updatowanie bazy
+   }
+     
 
-        //sprawdzenie czy artykuł został dodany przez zalogowanego użytkownika
-
-        //edycja danych w bazie do danego artykułu
-
-        //zapisywanie nowych danych w bazie
-     }
-
-     public function DropArticle(string $articleId, string $userId)
-     {
-        //wyszukiwanie artykułu w bazie danych 
-
-        //sprawdzenie czy artykuł został dodany przez zalogowanego użytkownika
-
-        //usuwanie artykułu z bazy
-     }
 }

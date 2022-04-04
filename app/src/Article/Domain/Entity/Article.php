@@ -30,6 +30,9 @@ class Article
     #[ORM\Column(type: 'string', length: 255)]
     private $imagePath;
 
+    // #[ORM\Column(type: 'bool')]
+    // private $isPrivate;
+
 
     /**
      * @return mixed
