@@ -2,13 +2,12 @@
 
 namespace App\User\Infrastructure\Web\Controller;
 
-use App\Model\MyUserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\User\Domain\Entity\User;
 
-class DashboardController extends AbstractController implements MyUserInterface
+class DashboardController extends AbstractController 
 {    
     #[Route('/myacount', name: 'dashboard')]
     public function index(): Response

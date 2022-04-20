@@ -7,12 +7,19 @@
 <div class="container mt-4 mb-4">
   <div class="row justify-content-md-center">
     <div class="col-md-12 col-lg-8">
-      <h1 class="h2 mb-4">Submit issue</h1>
-      <label>Describe the issue in detail</label>
+      <h1 class="h2 mb-4">Create new article</h1>
       <div class="form-group">
-         <textarea id="editor"></textarea>
+        {{ form_start(articleForm) }}</br>
+        {{ form_widget(articleForm.title) }}</br>
+        {{ form_widget(articleForm.content) }}</br>
+        <div class="form-group">
+          {{ form_label(articleForm.mainImagePath) }}
+          {{ form_widget(articleForm.mainImagePath) }}
+          {{ form_errors(articleForm.mainImagePath) }}
+        </div>
+        {# <button type="submit" class="btn btn-primary">Add Article</button> #}
+        {{ form_end(articleForm) }}
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
 </div>

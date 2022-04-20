@@ -3,54 +3,55 @@
 namespace App\User\Domain\Entity;
 
 use App\User\Domain\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Article\Domain\Entity\Article;
-use App\Model\MyUserInterface as ModelUserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
-#[ApiResource]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, ModelUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
     private $id;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private ?string $email;
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $Email;
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private string $password;
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
-    #[ORM\Column(type: 'string', length: 180)]
-    private ?string $username;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Username;
 
-    #[ORM\Column(type: "boolean")]
-    private $coach;
+    /**
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="Author", orphanRemoval=true)
+     */
+    private $Articles;
 
-    #[ORM\Column(type: "boolean")]
-    private $editor;
+    public function __construct()
+    {
+        $this->Articles = new ArrayCollection();
+    }
 
-    // #[ORM\ManyToMany(targetEntity: Article::class, mappedBy:"users")]
-    // private $articles;
-
-    // public function __construct()
-    // {
-    //     $this->articles = new ArrayCollection();
-
-    // }
     public function getId(): ?int
     {
         return $this->id;
@@ -58,45 +59,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ModelUs
 
     public function getEmail(): ?string
     {
-        return $this->email;
+        return $this->Email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $Email): self
     {
-        $this->email = $email;
+        $this->Email = $Email;
 
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-        
-        return $this;
-    }
-
-    public function isCoach(): bool
-    {
-        return $this->coach;
-    }
-    public function setCoach(bool $coach): self
-    {
-        $this->coach = $coach;
-        return $this;
-    }
-
-    public function isEditor(): bool
-    {
-        return $this->editor;
-    }
-    public function setEditor(bool $editor): self
-    {
-        $this->editor = $editor;
         return $this;
     }
 
@@ -107,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ModelUs
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->Email;
     }
 
     /**
@@ -144,34 +113,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ModelUs
         return $this;
     }
 
-
-    // /**
-    //  * @return Collection|Article[]
-    //  */
-    // public function getArticles() : Collection
-    // {
-    //     return $this->articles;
-    // }
-
-    // public function addArticle(Article $article) : self
-    // {
-    //     if (!$this-> articles->contains($article))
-    //     {
-    //         $this->articles[] = $article;
-    //         $article->addUser($this);
-    //     }
-    //     return $this;
-    // }
-
-    // public function removeArticle(Article $article) : self
-    // {
-    //     if ($this->articles->removeElement($article))
-    //     {
-    //         $article->removeUser($this);
-    //     }
-    //     return $this;
-    // }
-
     /**
      * @see UserInterface
      */
@@ -181,11 +122,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, ModelUs
         // $this->plainPassword = null;
     }
 
-    public function setType(User $user)
+    public function getUsername(): ?string
     {
-        // if ($user->isCoach())
-        // {
+        return $this->Username;
+    }
 
-        // }
+    public function setUsername(string $Username): self
+    {
+        $this->Username = $Username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->Articles;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->Articles->contains($article)) {
+            $this->Articles[] = $article;
+            $article->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->Articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }

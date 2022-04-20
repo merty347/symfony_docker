@@ -28,7 +28,7 @@
         "symfony/form": "6.0.*",
         "symfony/framework-bundle": "6.0.*",
         "symfony/mailer": "6.0.*",
-        "symfony/maker-bundle": "^1.36",
+        "symfony/maker-bundle": "^1.38",
         "symfony/property-access": "6.0.*",
         "symfony/property-info": "6.0.*",
         "symfony/proxy-manager-bridge": "6.0.*",
@@ -101,6 +101,11 @@
         "symfony": {
             "allow-contrib": false,
             "require": "6.0.*"
+        },
+        "patches": {
+            "symfony/maker-bundle": {
+                "Provide flag to force annotation in make entity command": "https://raw.githubusercontent.com/vklux/maker-bundle-force-annotation/master/maker-force-annotation-flag.patch"
+            }
         }
     }
 }

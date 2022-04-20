@@ -3,7 +3,7 @@
 namespace App\Article\Infrastructure\API;
 
 use App\User\Domain\Entity\User;
-use App\Article\Domain\Entity\Article;
+use App\User\Domain\Entity\Article;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;

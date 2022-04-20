@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Entity\Coach;
 use Doctrine\DBAL\Types\TextType;
 
 class RegistrationController extends AbstractController
@@ -22,8 +21,6 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
-            // ->add('Email', 'User', array(
-            //     'attr' => array('placeholder' => 'Your Email')));
         $form->handleRequest($request);
         
         //if ($form->coach->isset) to wtedy create formCoach jak niżej 
@@ -70,4 +67,4 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-}
+} 
