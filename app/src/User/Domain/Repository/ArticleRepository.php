@@ -21,10 +21,10 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-//     public function CreateArticle()
-//     {
-//         $article = new Article();
-//     }
+    public function findAll()
+    {
+        return $this->findBy([], array('id' => 'DESC'));
+    }
 
     /**
      * @throws ORMException
@@ -49,6 +49,7 @@ class ArticleRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
 
     // /**
     //  * @return Article[] Returns an array of Article objects

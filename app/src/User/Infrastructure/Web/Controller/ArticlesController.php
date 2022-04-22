@@ -32,14 +32,15 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function index(): Response
-    {
-        
-        return $this->render('User/Web/Article/Twig/index.html.twig');
+    public function index(ArticleRepository $articleRepository): Response
+    {        
+        $articles = $articleRepository->findAll();
+        return $this->render('User/Web/Article/Twig/index.html.twig',
+        ['articles' => $articles]);
     }
 
    #[Route('/artykul/dodaj', name: 'new-article')]
-   public function CreateArticle(EntityManagerInterface $em, Request $request)
+   public function createArticleAction(EntityManagerInterface $em, Request $request)
    {  
         //czy zalogowany user
         if($this->isGranted('ROLE_USER'))
@@ -55,11 +56,9 @@ class ArticlesController extends AbstractController
                 $em->persist($articleEntity);
                 $em->flush();
             }           
-            
-
-            // return $this->render('User/Web/Article/Twig/dodawanie.html.twig', 
-            // ['articleForm' => $form->createView()]);   
-            return $this->render('User/Web/Article/Twig/index.html.twig');
+            return $this->render('User/Web/Article/Twig/dodawanie.html.twig', 
+             ['articleForm' => $form->createView()]);   
+            //return $this->render('User/Web/Article/Twig/index.html.twig', ['articles' => $articles]);
             
         }
         else
@@ -67,23 +66,72 @@ class ArticlesController extends AbstractController
             return $this->render('User/Web/Login/Twig/login.html.twig');
 
         }
-    
-        
-
-       
+               
    }
 
-   //TODO edytowanie artykułów ------ zdjęcia w artykułach będą tablicą, bo to może być galeria (I Guesssssss)
-   public function EditArticle(Article $article, User $user, string $content, string $title)
+   #[Route('/artykul/{id}', name: 'eachArticle')]
+   public function showArticleAction(int $id, ArticleRepository $articleRepository)
    {
-        //sprawdzanie czy user zalogowany i czy jego artykuł 
-        if ($article->getAuthor() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
+        //$em = $doctrine->getManager();
+        //pobieranie wszystkich artykułów
+        //$articles = $articleRepository->findAll();
+        $eachArticle = $articleRepository->findOneBy(['id' => $id]);
+        $eachArticle->getAuthor();
+        if($eachArticle)
+        {
+            return $this->render('User/Web/Article/Twig/eacharticle.html.twig', array('article' => $eachArticle));
         }
-        //wyszukiwanie artykułu w bazie 
+        else
+        {
+            throw $this->createNotFoundException(
+                'No article found for id '.$id
+            );
+        }
 
-        //zmienianie danych w artykule
-        //updatowanie bazy
+   }
+
+   #[Route('/artykul/{id}/edit', name: 'editArticle')]
+   public function editArticleAction(int $id, ArticleRepository $articleRepository, EntityManagerInterface $em, Request $request)
+   {
+        $article = $articleRepository->findOneBy(['id' => $id]);
+
+        if($this->isGranted('ROLE_USER'))
+        {
+            //sprawdzanie czy usera artykuł 
+            if ($article->getAuthor() !== $this->getUser()) 
+            {
+                throw $this->createAccessDeniedException();
+            }
+            else
+            {                     
+                if (!$article) 
+                {
+                    throw $this->createNotFoundException(
+                        'No article found for id '.$id
+                    );
+                }
+                else
+                {
+                    $form = $this->createForm(ArticleType::class, $article);
+                    $form->handleRequest($request);
+                    if ($form->isSubmitted() && $form->isValid()) 
+                    {
+                        /** @var Article $article */
+                        $article = $form->getData();
+                        $em->persist($article);
+                        $em->flush();
+                    }
+                }
+                
+                return $this->render('User/Web/Article/Twig/editarticle.html.twig', 
+                ['articleForm' => $form->createView()]);   
+            }
+        }
+        else
+        {
+            return $this->render('User/Web/Login/Twig/login.html.twig');
+
+        }
    }
      
 
