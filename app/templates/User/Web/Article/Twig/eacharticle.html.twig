@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <!-- Categories widget-->
-                    <div class="card mb-4">
+                    {# <div class="card mb-4">
                         <div class="card-header">Categories</div>
                         <div class="card-body">
                             <div class="row">
@@ -62,11 +62,23 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> #}
                     <!-- TOP z  Big Data -->
                     <div class="card mb-4">
-                        <div class="card-header">Najpopularniejsze na świecie</div>
-                        <div class="card-body">Tu będzie lista najpopularniejszych tweetów</div>
+                        <div class="card-header">Hokej na twitterze</div>
+                        <div class="card-body">
+                            <h4>Jak często w danym roku mówiono o hokeju:</h4> 
+                            {% for stat in statistics %}
+                            <div class="row">
+                                <div class="col-sm-6">   
+                                    W {{ stat.year }} zamieszczono                                     
+                                </div> 
+                                <div class="col-sm-6">
+                                    {{ stat.count }} posty
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

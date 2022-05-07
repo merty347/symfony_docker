@@ -4,6 +4,7 @@ namespace App\User\Domain\Repository;
 
 use App\User\Domain\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,6 +25,23 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAll()
     {
         return $this->findBy([], array('id' => 'DESC'));
+    }
+
+    // private function addIsAskedQueryBuilder(QueryBuilder $qb = null): QueryBuilder
+    // {
+    //     return $this->getOrCreateQueryBuilder($qb)
+    //         ->andWhere('article.createdAt IS NOT NULL');
+    // }
+
+    // private function getOrCreateQueryBuilder(QueryBuilder $qb = null): QueryBuilder
+    // {
+    //     return $qb ?: $this->createQueryBuilder('q');
+    // }
+
+    public function createAskedOrderedByNewestQueryBuilder() : QueryBuilder
+    {
+        return $this->addIsAskedQueryBuilder()
+            ->orderBy('article.CreatedAt', 'DESC');
     }
 
     /**

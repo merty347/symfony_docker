@@ -62,6 +62,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Description;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Coach::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $Coach;
+
+    private $isCoach;
+
     public function __construct()
     {
         $this->Articles = new ArrayCollection();
@@ -214,4 +221,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getCoach(): ?Coach
+    {
+        return $this->Coach;
+    }
+
+    public function setCoach(?Coach $Coach): self
+    {
+        $this->Coach = $Coach;
+
+        return $this;
+    }
+
+    public function getIsCoach() : bool
+    {
+        return $this->isCoach;
+    }
+
+    public function setIsCoach(?bool $isCoach) : self
+    {
+        $this->isCoach = $isCoach;
+        return $this;
+    } 
 }

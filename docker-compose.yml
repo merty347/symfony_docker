@@ -11,9 +11,13 @@ services:
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
     ports:
+     # - '3306:3306'
       - '4306:3306'
     volumes:
       - ./mysql:/var/lib/mysql
+    #networks:
+    #- python-network
+    
   php:
     container_name: php
     build:
@@ -35,5 +39,18 @@ services:
     depends_on:
       - php
       - database
-
+  pyspark:
+    container_name: pyspark
+    image: jupyter/all-spark-notebook
+    ports:
+      - '8888:8888'
+    volumes:
+      - ./pyspark:/home/jovyan/work
+    depends_on:
+      - database
+    # networks:
+    #   - python-network
+# networks:
+#       python-network:
+#         driver: bridge
 

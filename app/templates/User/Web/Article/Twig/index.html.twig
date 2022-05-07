@@ -14,7 +14,7 @@
                 <div class="col-lg-8">
                 <!--Jeśli zalogowany to będzie mógł dodać artykuł class="btn btn-lg btn-primary"-->
                 {% if (app.user) %}
-                    <a  type="submit" height="40px" href="{{ path('new-article') }}" font-size="16px" border-radius="20px">
+                    <a  class="btn" type="submit" height="40px" href="{{ path('new-article') }}" font-size="16px" border-radius="20px">
                         Dodaj Artykuł </a>
                 {% endif %}
 
@@ -24,7 +24,7 @@
                     <!-- Najnowszy artykuł src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" -->
                     {% if ( loop.index ) %}
                     <div class="card mb-4">
-                        {# <img class="card-img-top"  src=" {{ asset(article.MainImagePath) |url_encode }}" /> #}
+                         <img class="card-img-top" alt="Embedded Image" src="{{ article.mainImagePath}}" />
                         <div class="card-body">
                             <div class="small text-muted">{{ article.CreatedAt |date('d-m-Y') }}</div>
                             <h2 class="card-title">{{ article.Title }}</h2>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <!-- Categories widget-->
-                    <div class="card mb-4">
+                    {# <div class="card mb-4">
                         <div class="card-header">Categories</div>
                         <div class="card-body">
                             <div class="row">
@@ -99,11 +99,23 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> #}
                     <!-- TOP z  Big Data -->
                     <div class="card mb-4">
-                        <div class="card-header">Najpopularniejsze na świecie</div>
-                        <div class="card-body">Tu będzie lista najpopularniejszych tweetów</div>
+                        <div class="card-header">Hokej na twitterze</div>
+                        <div class="card-body">
+                            <h4>Jak często w danym roku mówiono o hokeju:</h4> 
+                            {% for stat in statistics %}
+                            <div class="row">
+                                <div class="col-sm-6">   
+                                    W {{ stat.year }} zamieszczono                                     
+                                </div> 
+                                <div class="col-sm-6">
+                                    {{ stat.count }} posty
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

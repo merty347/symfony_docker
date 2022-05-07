@@ -61,4 +61,14 @@ class DashboardController extends AbstractController
         }
     }
     
+    //funkcja do zostania coachem 
+    #[Route('/myaccount/becoach', name: 'wantbecoach')]
+    public function setAsCoach(UserRepository $userRepository)
+    {
+        if($this->isGranted('ROLE_USER'))
+        {
+            //jeśli nie jest jeszcze trener to generuj form do autentykacji
+        }
+    }
+
 }

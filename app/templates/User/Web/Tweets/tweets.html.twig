@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Newsy z Twittera{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="container">
+            <div class="row">
+                <!-- Blog entries-->
+                <div class="col-lg-8">
+
+                <a class="twitter-timeline" data-width="700" data-height="1000" data-dnt="true" data-theme="light" href="https://twitter.com/HockeyPoland?ref_src=twsrc%5Etfw">
+                    Tweets by HockeyPoland
+                </a> 
+                <a class="twitter-timeline" data-width="700" data-height="1000" data-dnt="true" data-theme="light" href="https://twitter.com/FIH_Hockey?ref_src=twsrc%5Etfw">
+                    Tweets by FIH_Hockey
+                </a> 
+                <a class="twitter-timeline" data-width="700" data-height="1000" data-dnt="true" data-theme="light" href="https://twitter.com/Eurosport_PL?ref_src=twsrc%5Etfw">
+                    Tweets by Eurosport_PL
+                </a>
+                </div>
+                <!-- Side widgets-->
+                <div class="col-lg-4">
+                    <!-- Search widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Search</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Categories widget-->
+                    {# <div class="card mb-4">
+                        <div class="card-header">Categories</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><a href="#!">Web Design</a></li>
+                                        <li><a href="#!">HTML</a></li>
+                                        <li><a href="#!">Freebies</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><a href="#!">JavaScript</a></li>
+                                        <li><a href="#!">CSS</a></li>
+                                        <li><a href="#!">Tutorials</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> #}
+                    <!-- TOP z  Big Data -->
+                    <div class="card mb-4">
+                        <div class="card-header">Hokej na twitterze</div>
+                        <div class="card-body">
+                            <h4>Jak często w danym roku mówiono o hokeju:</h4> 
+                            {% for stat in statistics %}
+                            <div class="row">
+                                <div class="col-sm-6">   
+                                    W {{ stat.year }} zamieszczono                                     
+                                </div> 
+                                <div class="col-sm-6">
+                                    {{ stat.count }} posty
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

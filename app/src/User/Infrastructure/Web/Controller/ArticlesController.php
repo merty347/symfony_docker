@@ -7,8 +7,11 @@ use App\User\Domain\Entity\User;
 use App\User\Domain\Entity\Article;
 use App\User\Domain\Repository\ArticleRepository;
 use App\Article\Infrastructure\Form\ArticleType;
+use App\User\Domain\Repository\StatisticsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,11 +35,28 @@ class ArticlesController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $articleRepository, StatisticsRepository $statisticsRepository): Response
     {        
         $articles = $articleRepository->findAll();
+        $statistics = $statisticsRepository->findAll();
+        // $pagerfanta = new Pagerfanta(new QueryAdapter($articles));
+        // $pagerfanta->setMaxPerPage(5);
+
+        $images = array();
+        foreach ($articles as $key => $entity){
+            $images[$key] = $entity->getmainImagePath();
+        }
+
         return $this->render('User/Web/Article/Twig/index.html.twig',
-        ['articles' => $articles]);
+        ['articles' => $articles, 'images' => $images, 'statistics' => $statistics
+        ]);
+    }
+
+    #[Route('/twitter-newsy', name: 'tweets')]
+    public function twitterIndex(StatisticsRepository $statisticsRepository)
+    {
+        $statistics = $statisticsRepository->findAll();
+        return $this->render('User/Web/Tweets/tweets.html.twig', ['statistics' => $statistics]);
     }
 
    #[Route('/artykul/dodaj', name: 'new-article')]
@@ -49,8 +69,16 @@ class ArticlesController extends AbstractController
             $articleEntity =  new Article(); 
             $form = $this->createForm(ArticleType::class,$articleEntity);
             $form->handleRequest($request);
+
             if($form->isSubmitted() && $form->isValid())
             {
+                $directory = '/var/www/symfony_docker/public/files';
+                $file = $form['mainImagePath']->getData();
+                $somefilename = $file->getClientOriginalName();
+                $file->move($directory, $somefilename);
+
+                $articleEntity->setMainImagePath('/files/' . $somefilename);
+
                 $articleEntity->setAuthor($author);
                 $articleEntity->setCreatedAt(new DateTime());
                 $em->persist($articleEntity);
@@ -70,16 +98,19 @@ class ArticlesController extends AbstractController
    }
 
    #[Route('/artykul/{id}', name: 'eachArticle')]
-   public function showArticleAction(int $id, ArticleRepository $articleRepository)
+   public function showArticleAction(int $id, ArticleRepository $articleRepository, StatisticsRepository $statisticsRepository)
    {
         //$em = $doctrine->getManager();
         //pobieranie wszystkich artykułów
         //$articles = $articleRepository->findAll();
+        $statistics = $statisticsRepository->findAll();
+
         $eachArticle = $articleRepository->findOneBy(['id' => $id]);
         $eachArticle->getAuthor();
         if($eachArticle)
         {
-            return $this->render('User/Web/Article/Twig/eacharticle.html.twig', array('article' => $eachArticle));
+            return $this->render('User/Web/Article/Twig/eacharticle.html.twig', array('article' => $eachArticle, 
+            'statistics' => $statistics));
         }
         else
         {
