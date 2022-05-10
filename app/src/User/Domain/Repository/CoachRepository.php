@@ -21,6 +21,7 @@ class CoachRepository extends ServiceEntityRepository
         parent::__construct($registry, Coach::class);
     }
 
+    
     /**
      * @throws ORMException
      * @throws OptimisticLockException

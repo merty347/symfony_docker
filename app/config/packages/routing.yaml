@@ -10,3 +10,23 @@ when@prod:
     framework:
         router:
             strict_requirements: null
+
+easy_admin:
+    resource: "@EasyAdminBundle/Controller/AdminDashboardController.php"
+    type:     annotation
+    prefix:   /admin
+    entities:
+        # change the following to the namespaces of your own entities
+        Article:
+            class: App\User\Domain\Entity\Article
+        Coach:
+            class: App\User\Domain\Entity\Coach
+        Exercise:
+            class: App\User\Domain\Entity\Exercise 
+        User:
+            class: App\User\Domain\Entity\User
+            list:
+                fields: 
+                    - { property: 'isCoach', type: 'boolean' }
+
+

@@ -39,6 +39,7 @@ class ArticlesController extends AbstractController
     {        
         $articles = $articleRepository->findAll();
         $statistics = $statisticsRepository->findAll();
+        $newest = $articleRepository->findBy(array(), array('id'=>'DESC'),1,0);
         // $pagerfanta = new Pagerfanta(new QueryAdapter($articles));
         // $pagerfanta->setMaxPerPage(5);
 
@@ -48,7 +49,7 @@ class ArticlesController extends AbstractController
         }
 
         return $this->render('User/Web/Article/Twig/index.html.twig',
-        ['articles' => $articles, 'images' => $images, 'statistics' => $statistics
+        ['articles' => $articles, 'images' => $images, 'statistics' => $statistics, 'newest' => $newest
         ]);
     }
 

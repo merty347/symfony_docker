@@ -27,7 +27,7 @@ class LoginController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="logout")
+     * @Route("/logout", name="logout")
      */
     public function logout(): void
     {

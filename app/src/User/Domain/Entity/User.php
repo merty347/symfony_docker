@@ -244,4 +244,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isCoach = $isCoach;
         return $this;
     } 
+    // public function __toString(): string
+    // {
+    //     return $this->coach.' '.$this->username;
+    // }
 }

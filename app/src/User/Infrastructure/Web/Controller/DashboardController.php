@@ -63,11 +63,24 @@ class DashboardController extends AbstractController
     
     //funkcja do zostania coachem 
     #[Route('/myaccount/becoach', name: 'wantbecoach')]
-    public function setAsCoach(UserRepository $userRepository)
+    public function setAsCoach(UserRepository $userRepository, EntityManagerInterface $em, Request $request)
     {
         if($this->isGranted('ROLE_USER'))
         {
             //jeśli nie jest jeszcze trener to generuj form do autentykacji
+            $coach = $this->getUser();
+            $form = $this->createForm(CoachType::class, $coach);
+                    $form->handleRequest($request);
+                    if ($form->isSubmitted() && $form->isValid()) 
+                    {
+                        /** @var Coach $coach */
+                        $coach = $form->getData();
+                        $em->persist($coach);
+                        $em->flush();
+                    }
+                
+                return $this->render('User/Web/CoachAuthorization/authoryzation.html.twig', 
+                ['authoryzationForm' => $form->createView()]); 
         }
     }
 

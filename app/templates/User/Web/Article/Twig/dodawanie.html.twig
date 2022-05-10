@@ -2,6 +2,19 @@
 
 
 {% block title %}App:blog:entries{% endblock %}
+{# {% block head %}
+<script src="https://cdn.tiny.cloud/1/dwkhxjzx16x5srshswgosgr3aq9h5u8dp95aj3l6cbiee1d7/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+  tinymce.init({
+    selector: 'textarea#editor',
+    skin: 'bootstrap',
+    plugins: 'lists, link, image, media',
+    toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+    menubar: false,
+    });
+</script>
+{% endblock %} #}
 
 {% block body %}
 
@@ -14,7 +27,9 @@
         {{ form_widget(articleForm.title) }}</br>
       </div>
       <div class="form-group">
+          <textarea id="editor">
           {{ form_widget(articleForm.content) }}</br>
+          </textarea>
       </div> 
         <div class="form-group">
           {{ form_label(articleForm.mainImagePath) }}

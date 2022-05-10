@@ -10,26 +10,30 @@
 <div class="container emp-profile">
 	<form method="post">
 		<div class="row">
-				<div class="col-md-6"> <div class="profile-head">
-					<h5>
-						{{ app.user.username }}
-					</h5>
-					{# <p class="proile-rating">Dodane artykuły :
-						<span>{{ articlesByUser |length }}</span>
-					</p> #}
-					<ul
-						class="nav nav-tabs" id="myTab" role="tablist">
-						{# Info o userze #}
-						<li class="nav-item">
-							<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">O mnie</a>
-						</li>
-						{# Jeśli trener to treningi #}
-						{# <li class="nav-item">
-							<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profil Trenera</a>
-						</li> #}
-					</ul>
+				<div class="col-md-6"> 
+					<div class="profile-head">
+						<h5>
+							{{ app.user.username }}
+						</h5>
+						{# <p class="proile-rating">Dodane artykuły :
+							<span>{{ articlesByUser |length }}</span>
+						</p> #}
+						<ul
+							class="nav nav-tabs" id="myTab" role="tablist">
+							{# Info o userze #}
+							<li class="nav-item">
+								<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">O mnie</a>
+							</li>
+							{# Jeśli trener to treningi #}
+							{# <li class="nav-item">
+								<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profil Trenera</a>
+							</li> #}
+						</ul>
+					</div>
 				</div>
-			</div>
+				<div class="col-md-2">
+                    <button class="btn" type="submit">Zapisz</button>
+                </div>
 			
 		</div>
 		<div class="row">
@@ -79,9 +83,9 @@
 						</div>
 					</div>
 					{# Button do zapisywania profilu #}
-					<div class="col-md-2">
+					{# <div class="col-md-2">
 						<button type="submit" class="profile-edit-btn" name="btnAddMore" value="Save your profile"></button>
-					</div>
+					</div> #}
 				{{ form_end(userprofileForm) }}
 				</div>
 			</div>

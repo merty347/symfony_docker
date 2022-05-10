@@ -17,12 +17,15 @@
                                  by <a href="{{ path('userpage', {id: article.author.id, username: article.author.username})}}">{{article.author.username}}</a> 
                             </div>
                             <!-- Post categories-->
-                            {% if (app.user.username == article.author.username) %}
+                            {% if app.user %}
+                                {% if (app.user.username == article.author.username) %}
                                 <a class="badge bg-secondary text-decoration-none link-light" href="{{ path('editArticle', {id: article.id}) }}">Edit Article</a>
-                            {% endif %}{#<a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a> #}
+                                {% endif %}{#<a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a> #}
+                            {% endif %}
+                            
                         </header>
                         <!-- Preview image figure-->
-                        {# <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure> #}
+                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ article.mainImagePath}}" alt="..." /></figure>
                         <!-- Post content-->
                         <section class="mb-5">
                             <p class="fs-5 mb-4">{{ article.Content }}</p>

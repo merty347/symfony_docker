@@ -17,7 +17,9 @@ class ArticleType extends AbstractType
     {   
         $builder
             ->add('title', TextType::class, ['attr' => array('placeholder' => 'Create good Title for your article')])
-            ->add('content', TextareaType::class, ['attr' => array('placeholder' => 'Write content to your article...')])
+            ->add('content', TextareaType::class, 
+                ['attr' => array('placeholder' => 'Write content to your article...', 'cols' => '30', 'rows' => '20', 
+                'id' => 'editor')])
             ->add('mainImagePath', FileType::class, ['data_class' => null, 'label' => false,
             'attr' => array('accept' => 'image/jpeg,image/png')])
             ->add('add', SubmitType::class, ['label' => 'Create Article']);

@@ -8,10 +8,13 @@
   <div class="row justify-content-md-center">
     <div class="col-md-12 col-lg-8">
       {# TODO Form do uzupełnienia danych coacha! #}
+      {{form_start(authoryzationForm)}}
       <div class="form-group">
-         
+         {{form_widget(authoryzationForm.license)}}
+         {{form_widget(authoryzationForm.club)}}
       </div>
       <button type="submit" class="btn btn-primary">Wyślij prośbę o autoryzację</button>
+      {{form_end(authoryzationForm)}}
     </div>
   </div>
 </div>
