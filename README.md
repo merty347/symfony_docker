@@ -1,2 +1,3 @@
 # symfony_docker
-Praca inżynierska z symfony i dockerem. 
+Praca inżynierska z wykorzystaniem Symfony i Dockera. 
+Całość znajduje się w master branch.
